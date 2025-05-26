@@ -25,6 +25,9 @@ devDependencies:
   '@rsbuild/plugin-react':
     specifier: ^1.3.0
     version: registry.npmjs.org/@rsbuild/plugin-react@1.3.1(@rsbuild/core@1.3.21)
+  '@types/node':
+    specifier: ^22.15.21
+    version: registry.npmjs.org/@types/node@22.15.21
   '@types/react':
     specifier: ^18.2.0
     version: registry.npmjs.org/@types/react@18.3.22
@@ -387,6 +390,14 @@ packages:
     version: 0.5.17
     dependencies:
       tslib: registry.npmjs.org/tslib@2.8.1
+    dev: true
+
+  registry.npmjs.org/@types/node@22.15.21:
+    resolution: {integrity: sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@types/node/-/node-22.15.21.tgz}
+    name: '@types/node'
+    version: 22.15.21
+    dependencies:
+      undici-types: registry.npmjs.org/undici-types@6.21.0
     dev: true
 
   registry.npmjs.org/@types/prop-types@15.7.14:
@@ -1383,6 +1394,12 @@ packages:
     version: 5.8.3
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
+
+  registry.npmjs.org/undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz}
+    name: undici-types
+    version: 6.21.0
     dev: true
 
   registry.npmjs.org/update-browserslist-db@1.1.3(browserslist@4.24.5):

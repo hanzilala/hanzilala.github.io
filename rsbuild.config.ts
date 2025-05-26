@@ -6,4 +6,10 @@ export default defineConfig({
   html: {
     template: './src/index.html',
   },
+  dev: {
+    assetPrefix: '/',
+  },
+  output: {
+    assetPrefix: process.env.NODE_ENV === 'production' ? '/hanzii-lala/' : '/',
+  },
 });

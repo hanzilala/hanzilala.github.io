@@ -68,6 +68,32 @@ This project serves as an **experimental showcase** of AI-assisted software deve
    http://localhost:3002
    ```
 
+## 🚀 Deployment
+
+### Automatic Deployment
+This project is configured with **GitHub Actions** for automatic deployment to GitHub Pages:
+
+- **Trigger**: Automatically deploys on push to `main` branch
+- **Build Process**: Uses pnpm to install dependencies and build the project
+- **Output**: Deploys to GitHub Pages at `https://yourusername.github.io/hanzii-lala/`
+
+### Manual Deployment
+To deploy manually:
+
+1. **Build the project**
+   ```bash
+   pnpm run build
+   ```
+
+2. **Deploy the `dist` folder** to your hosting service
+
+### GitHub Pages Setup
+To enable GitHub Pages deployment:
+
+1. Go to your repository **Settings** → **Pages**
+2. Set **Source** to "GitHub Actions"
+3. Push to the `master` branch to trigger automatic deployment
+
 ## 🎮 Usage
 
 ### Basic Navigation
