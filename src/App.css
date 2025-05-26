@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+body {
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Apply transition to all elements for smooth theme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Keep essential layout styles */
+.content {
+  display: flex;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.5;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Remove specific font sizes and colors as they're now handled by Tailwind/Catppuccin */
