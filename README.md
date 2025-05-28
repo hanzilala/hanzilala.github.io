@@ -1,4 +1,4 @@
-# Hanzii Lala 🌸
+# Hanzilala 🌸
 
 A beautiful and interactive language learning application for studying Chinese characters with stroke animations, definitions, and examples.
 

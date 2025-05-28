@@ -1,6 +1,6 @@
 # Environment Variables Setup Guide
 
-This guide explains how to set up environment variables for the Hanzii Lala application, both for local development and GitHub Pages deployment.
+This guide explains how to set up environment variables for the Hanziilala application, both for local development and GitHub Pages deployment.
 
 ## Overview
 
