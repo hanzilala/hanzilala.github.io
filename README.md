@@ -58,12 +58,24 @@ This project serves as an **experimental showcase** of AI-assisted software deve
    pnpm install
    ```
 
-3. **Start development server**
+3. **Configure Environment Variables (Optional)**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your Google Client ID for authentication:
+   ```env
+   GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+   ```
+   
+   > **Note**: See [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md) for detailed configuration instructions.
+
+4. **Start development server**
    ```bash
    pnpm run dev
    ```
 
-4. **Open in browser**
+5. **Open in browser**
    ```
    http://localhost:3002
    ```
@@ -73,9 +85,20 @@ This project serves as an **experimental showcase** of AI-assisted software deve
 ### Automatic Deployment
 This project is configured with **GitHub Actions** for automatic deployment to GitHub Pages:
 
-- **Trigger**: Automatically deploys on push to `main` branch
+- **Trigger**: Automatically deploys on push to `master` branch
 - **Build Process**: Uses pnpm to install dependencies and build the project
 - **Output**: Deploys to GitHub Pages at `https://yourusername.github.io/hanzii-lala/`
+
+### Environment Variables for GitHub Pages
+To enable Google authentication on GitHub Pages:
+
+1. **Set Repository Secret**:
+   - Go to **Settings** → **Secrets and variables** → **Actions**
+   - Add `GOOGLE_CLIENT_ID` with your Google OAuth Client ID
+
+2. **Configure Google Cloud Console**:
+   - Add your GitHub Pages URL to authorized origins
+   - See [ENVIRONMENT_SETUP.md](ENVIRONMENT_SETUP.md) for complete setup guide
 
 ### Manual Deployment
 To deploy manually:

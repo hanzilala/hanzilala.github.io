@@ -12,4 +12,9 @@ export default defineConfig({
   output: {
     assetPrefix: process.env.NODE_ENV === 'production' ? '/hanzii-lala/' : '/',
   },
+  source: {
+    define: {
+      'process.env.GOOGLE_CLIENT_ID': JSON.stringify(process.env.GOOGLE_CLIENT_ID),
+    },
+  },
 });

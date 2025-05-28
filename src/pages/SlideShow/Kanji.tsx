@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { HanziiWordDetails } from '../../api/hanzii';
 import { KanjiCharacter } from './KanjiCharacter';
 
@@ -10,28 +10,14 @@ export interface KanjiProps {
 }
 
 export const Kanji: React.FC<KanjiProps> = ({ 
-  wordDefinition, 
   isLoading, 
   error, 
   currentWord 
 }) => {
-  const [selectedChar, setSelectedChar] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-
   // Extract kanji characters from the word
   const kanjiChars = currentWord.word.split('').filter(char => 
     /[\u4e00-\u9faf]/.test(char) // Japanese kanji range
   );
-
-  const handleAnimationStart = (char: string) => {
-    setIsAnimating(true);
-    setSelectedChar(char);
-  };
-
-  const handleAnimationEnd = () => {
-    setIsAnimating(false);
-    setSelectedChar(null);
-  };
 
   return (
     <div className="h-full flex flex-col p-6 min-w-[400px] overflow-auto">
@@ -63,9 +49,9 @@ export const Kanji: React.FC<KanjiProps> = ({
                   <KanjiCharacter
                     key={`kanji-${char}`}
                     character={char}
-                    isAnimating={isAnimating}
-                    onAnimationStart={handleAnimationStart}
-                    onAnimationEnd={handleAnimationEnd}
+                    isAnimating={false}
+                    onAnimationStart={() => {}}
+                    onAnimationEnd={() => {}}
                   />
                 ))}
               </div>

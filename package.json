@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@8.15.0",
   "scripts": {
     "build": "rsbuild build",
     "dev": "rsbuild dev --open",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "clean": "rm -rf dist node_modules",
+    "reinstall": "pnpm clean && pnpm install",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
     "hanzi-writer": "^3.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
