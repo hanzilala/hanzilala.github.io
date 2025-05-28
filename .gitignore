@@ -3,8 +3,16 @@
 *.local
 *.log*
 
-# Dist
+# Dependencies
 node_modules
+.pnpm-store
+.pnpm-debug.log*
+
+# Package managers
+package-lock.json
+yarn.lock
+
+# Dist
 dist/
 
 # IDE
