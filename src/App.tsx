@@ -1,6 +1,8 @@
 import './App.css';
+import { useEffect } from 'react';
 import { ThemeProvider } from './components/ThemeProvider';
-import ThemeSwitcher from './components/ThemeSwitcher';
+import { AuthProvider } from './components/AuthProvider';
+import { Header } from './components/Header';
 import { SlideShow } from './pages/SlideShow/index';
 import { hanziService } from './services/hanziService';
 
@@ -14,15 +16,15 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <div className="flex flex-col transition-colors duration-300">
-        <div className="fixed top-4 right-4">
-          <ThemeSwitcher />
+      <AuthProvider>
+        <div className="flex flex-col min-h-screen transition-colors duration-300">
+          <Header />
+          
+          <main className="flex-1 pt-12">
+            <SlideShow initialSlide={0} />
+          </main>
         </div>
-        
-        <div className="w-full flex-1">
-          <SlideShow initialSlide={0} />
-        </div>
-      </div>
+      </AuthProvider>
     </ThemeProvider>
   );
 };
