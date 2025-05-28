@@ -10,7 +10,7 @@ export default defineConfig({
     assetPrefix: '/',
   },
   output: {
-    assetPrefix: process.env.NODE_ENV === 'production' ? '/hanzii-lala/' : '/',
+    assetPrefix: '/',
   },
   source: {
     define: {
