@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { getWordDetails, HanziiWordDetails } from '../../api/hanzii';
-import { Usage } from './Usage';
-import { Kanji } from './Kanji';
+import { useLanguage, useLayout } from '../../components/ThemeProvider';
+import { DefaultLayout } from './DefaultLayout';
+import { FullScreenLayout } from './FullScreenLayout';
 
 export interface ContentProps {
   currentSlide: number;
   wordItems: WordItem[];
+  onNextWord: () => void;
 }
 
-export const Content: React.FC<ContentProps> = ({ currentSlide, wordItems }) => {
+export const Content: React.FC<ContentProps> = ({ currentSlide, wordItems, onNextWord }) => {
   const [wordDefinition, setWordDefinition] = useState<HanziiWordDetails | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { language } = useLanguage();
+  const { layout } = useLayout();
 
   // Calculate the current word to display (with wrapping)
   const wordIndex = currentSlide % wordItems.length;
   const currentWord = wordItems[wordIndex];
 
-  // Fetch word definition when current word changes
+  // Fetch word definition when current word or language changes
   useEffect(() => {
     const fetchWordDefinition = async () => {
       if (!currentWord?.word) return;
@@ -27,7 +31,8 @@ export const Content: React.FC<ContentProps> = ({ currentSlide, wordItems }) => 
 
       try {
         console.log('=== AUTO API CALL ===');
-        const wordDetails = await getWordDetails(currentWord.word);
+        console.log('Language:', language);
+        const wordDetails = await getWordDetails(currentWord.word, language);
         console.log('Auto API call result:', wordDetails);
         setWordDefinition(wordDetails);
       } catch (err) {
@@ -40,7 +45,7 @@ export const Content: React.FC<ContentProps> = ({ currentSlide, wordItems }) => 
     };
 
     fetchWordDefinition();
-  }, [currentWord?.word]);
+  }, [currentWord?.word, language]);
 
   // Handle empty state
   if (wordItems.length === 0) {
@@ -54,36 +59,34 @@ export const Content: React.FC<ContentProps> = ({ currentSlide, wordItems }) => 
     );
   }
 
+  // Render the appropriate layout based on the current layout setting
+  const renderLayout = () => {
+    const layoutProps = {
+      wordDefinition,
+      isLoading,
+      error,
+      currentWord
+    };
+
+    switch (layout) {
+      case 'fullscreen':
+        return <FullScreenLayout {...layoutProps} onNextWord={onNextWord} />;
+      case 'default':
+      default:
+        return <DefaultLayout {...layoutProps} />;
+    }
+  };
+
   return (
-    <div className="w-full h-screen bg-mantle text-text pt-16">
-      {/* Slide counter positioned at top right */}
-      <div className="absolute top-4 right-4 text-sm text-subtext0 z-10">
+    <>
+      {/* Slide counter positioned at bottom right */}
+      <div className="absolute bottom-4 right-4 text-sm text-subtext0 z-60">
         {wordIndex + 1} / {wordItems.length}
       </div>
 
-      {/* Horizontal layout: Usage (40%) | Kanji (60%, min 400px) */}
-      <div className="h-full flex">
-        {/* Usage section - 40% width */}
-        <div className="w-2/5 border-r border-surface1">
-          <Usage 
-            wordDefinition={wordDefinition}
-            isLoading={isLoading}
-            error={error}
-            currentWord={currentWord}
-          />
-        </div>
-
-        {/* Kanji section - 60% width with minimum 400px */}
-        <div className="flex-1 min-w-[400px]">
-          <Kanji 
-            wordDefinition={wordDefinition}
-            isLoading={isLoading}
-            error={error}
-            currentWord={currentWord}
-          />
-        </div>
-      </div>
-    </div>
+      {/* Render the selected layout */}
+      {renderLayout()}
+    </>
   );
 };
 

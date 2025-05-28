@@ -23,11 +23,11 @@ const ThemeSwitcher: React.FC = () => {
       onClick={toggleTheme}
       className={`
         flex items-center justify-center w-12 h-12 rounded-full 
-        bg-surface0 hover:bg-surface1 
+        bg-ctp-surface0 hover:bg-ctp-surface1 
         transition-all duration-300 ease-in-out
         transform hover:scale-110 active:scale-95
         shadow-lg hover:shadow-xl
-        border-2 border-transparent hover:border-blue/20
+        border-2 border-transparent hover:border-ctp-blue/20
       `}
       title={config.label}
     >
