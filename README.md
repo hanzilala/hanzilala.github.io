@@ -49,8 +49,8 @@ This project serves as an **experimental showcase** of AI-assisted software deve
 ### Setup
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/hanzii-lala.git
-   cd hanzii-lala
+   git clone https://github.com/yourusername/hanzilala.git
+   cd hanzilala
    ```
 
 2. **Install dependencies**
@@ -87,7 +87,7 @@ This project is configured with **GitHub Actions** for automatic deployment to G
 
 - **Trigger**: Automatically deploys on push to `master` branch
 - **Build Process**: Uses pnpm to install dependencies and build the project
-- **Output**: Deploys to GitHub Pages at `https://yourusername.github.io/hanzii-lala/`
+- **Output**: Deploys to GitHub Pages at `https://yourusername.github.io/hanzilala/`
 
 ### Environment Variables for GitHub Pages
 To enable Google authentication on GitHub Pages:
@@ -183,13 +183,15 @@ src/
 ├── components/           # Reusable UI components
 │   ├── ThemeProvider.tsx # Theme context and management
 │   └── ThemeSwitcher.tsx # Theme selection UI
-├── pages/SlideShow/      # Main application pages
-│   ├── index.tsx         # Main slideshow container
+├── pages/SearchDetail/   # Main application pages
+│   ├── index.tsx         # Main search detail container
 │   ├── Content.tsx       # Content layout manager
 │   ├── Usage.tsx         # Word usage and definitions
 │   ├── Kanji.tsx         # Kanji analysis container
 │   ├── KanjiCharacter.tsx # Individual character component
 │   └── ControlView.tsx   # Navigation and search controls
+├── pages/Home/           # Home page with search
+│   └── index.tsx         # Google-like search interface
 ├── api/                  # API integration
 │   └── hanzii.ts         # Hanzii API client
 ├── utils.ts              # Utility functions

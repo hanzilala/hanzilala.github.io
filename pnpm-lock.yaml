@@ -20,6 +20,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: registry.npmjs.org/react-dom@18.3.1(react@18.3.1)
+  wouter:
+    specifier: ^3.7.1
+    version: registry.npmjs.org/wouter@3.7.1(react@18.3.1)
 
 devDependencies:
   '@catppuccin/tailwindcss':
@@ -953,6 +956,12 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dev: true
 
+  registry.npmjs.org/mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz}
+    name: mitt
+    version: 3.0.1
+    dev: false
+
   registry.npmjs.org/mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/mz/-/mz-2.7.0.tgz}
     name: mz
@@ -1201,6 +1210,13 @@ packages:
       picomatch: registry.npmjs.org/picomatch@2.3.1
     dev: true
 
+  registry.npmjs.org/regexparam@3.0.0:
+    resolution: {integrity: sha512-RSYAtP31mvYLkAHrOlh25pCNQ5hWnT106VukGaaFfuJrZFkGRX5GhUAdPqpSDXxOhA2c4akmRuplv1mRqnBn6Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/regexparam/-/regexparam-3.0.0.tgz}
+    name: regexparam
+    version: 3.0.0
+    engines: {node: '>=8'}
+    dev: false
+
   registry.npmjs.org/resolve@1.22.10:
     resolution: {integrity: sha512-NPRy+/ncIMeDlTAsuqwKIiferiawhefFJtkNSW0qZJEqMEb+qBt/77B/jGeeek+F0uOeN05CDa6HXbbIgtVX4w==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/resolve/-/resolve-1.22.10.tgz}
     name: resolve
@@ -1434,6 +1450,17 @@ packages:
       picocolors: registry.npmjs.org/picocolors@1.1.1
     dev: true
 
+  registry.npmjs.org/use-sync-external-store@1.5.0(react@18.3.1):
+    resolution: {integrity: sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.5.0.tgz}
+    id: registry.npmjs.org/use-sync-external-store/1.5.0
+    name: use-sync-external-store
+    version: 1.5.0
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    dependencies:
+      react: registry.npmjs.org/react@18.3.1
+    dev: false
+
   registry.npmjs.org/util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz}
     name: util-deprecate
@@ -1449,6 +1476,20 @@ packages:
     dependencies:
       isexe: registry.npmjs.org/isexe@2.0.0
     dev: true
+
+  registry.npmjs.org/wouter@3.7.1(react@18.3.1):
+    resolution: {integrity: sha512-od5LGmndSUzntZkE2R5CHhoiJ7YMuTIbiXsa0Anytc2RATekgv4sfWRAxLEULBrp7ADzinWQw8g470lkT8+fOw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/wouter/-/wouter-3.7.1.tgz}
+    id: registry.npmjs.org/wouter/3.7.1
+    name: wouter
+    version: 3.7.1
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      mitt: registry.npmjs.org/mitt@3.0.1
+      react: registry.npmjs.org/react@18.3.1
+      regexparam: registry.npmjs.org/regexparam@3.0.0
+      use-sync-external-store: registry.npmjs.org/use-sync-external-store@1.5.0(react@18.3.1)
+    dev: false
 
   registry.npmjs.org/wrap-ansi@7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz}

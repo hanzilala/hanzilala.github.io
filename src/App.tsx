@@ -1,9 +1,11 @@
 import './App.css';
 import { useEffect } from 'react';
+import { Router, Route } from 'wouter';
 import { ThemeProvider } from './components/ThemeProvider';
 import { AuthProvider } from './components/AuthProvider';
 import { Header } from './components/Header';
-import { SlideShow } from './pages/SlideShow/index';
+import { Home } from './pages/Home';
+import { SearchDetail } from './pages/SearchDetail';
 import { hanziService } from './services/hanziService';
 
 const App = () => {
@@ -17,13 +19,16 @@ const App = () => {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <div className="flex flex-col min-h-screen transition-colors duration-300">
-          <Header />
-          
-          <main className="flex-1 pt-12">
-            <SlideShow initialSlide={0} />
-          </main>
-        </div>
+        <Router>
+          <div className="flex flex-col min-h-screen transition-colors duration-300">
+            <Header />
+            
+            <main className="flex-1 pt-12">
+              <Route path="/" component={Home} />
+              <Route path="/search/:wordItem" component={SearchDetail} />
+            </main>
+          </div>
+        </Router>
       </AuthProvider>
     </ThemeProvider>
   );
