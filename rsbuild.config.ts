@@ -4,6 +4,7 @@ import { pluginReact } from '@rsbuild/plugin-react';
 export default defineConfig({
   plugins: [pluginReact()],
   html: {
+    favicon: './src/assets/icon.png',
     template: './src/index.html',
   },
   dev: {
