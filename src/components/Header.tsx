@@ -4,18 +4,24 @@ import { UserProfile } from './UserProfile';
 import { AuthButton } from './AuthButton';
 import ThemeSwitcher from './ThemeSwitcher';
 import LanguageSwitcher from './LanguageSwitcher';
+import iconImg from '../assets/icon.png';
 
 export const Header: React.FC = () => {
   const { user } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-base/80 backdrop-blur-md border-b border-surface2/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-12">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="text-xl font-bold text-text">
+            <div className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2">
+              <img 
+                src={iconImg} 
+                alt="Hanzilala Logo" 
+                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+              />
+              <h1 className="text-lg sm:text-xl font-bold text-text">
                 Hanzilala
               </h1>
             </div>
@@ -27,7 +33,7 @@ export const Header: React.FC = () => {
           </nav>
 
           {/* Right side controls */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
             {/* Language Switcher */}
             <LanguageSwitcher />
             

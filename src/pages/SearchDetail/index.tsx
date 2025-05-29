@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'wouter';
 import { Content } from './Content';
 import { ControlView } from './ControlView';
 import LayoutSwitcher from '../../components/LayoutSwitcher';
+import { SearchInput } from '../../components/SearchInput';
 import { useWordItems, useLayout } from '../../components/ThemeProvider';
 
 export interface SearchDetailProps {
@@ -54,13 +55,27 @@ export const SearchDetail: React.FC<SearchDetailProps> = () => {
 
   return (
     <div className="relative w-full h-screen bg-base overflow-hidden">
+      {/* Search input at the top */}
+      <div className="absolute top-2 sm:top-4 left-1/2 transform -translate-x-1/2 z-60 w-full max-w-xs sm:max-w-md px-3 sm:px-4">
+        <SearchInput
+          onSearch={handleSearch}
+          placeholder="Search for Chinese characters, pinyin, or meanings..."
+          showButton={false}
+          autoFocus={false}
+          className="w-full"
+          initialValue={searchedWord?.word || ''}
+          suggestionsZIndex={9999}
+          maxSuggestionsHeight="16rem"
+        />
+      </div>
+
       {/* Switchers positioned at bottom-left corner */}
-      <div className="absolute bottom-4 left-4 z-60 flex gap-3">
+      <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 z-60 flex gap-2 sm:gap-3">
         <LayoutSwitcher />
       </div>
       
       {/* ControlView component positioned absolutely at bottom center */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-60">
+      <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 z-60">
         <ControlView 
           currentSlide={currentSlide} 
           onPrev={handlePrev} 
