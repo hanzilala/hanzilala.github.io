@@ -104,7 +104,46 @@ export const removeStoredUser = (): void => {
 export const isAuthenticated = (): boolean => {
   const token = getAuthToken();
   const user = getStoredUser();
-  return !!(token && user);
+  return !!(token && token.trim() && user);
+};
+
+// Validate if the current token is still valid (basic check)
+export const isValidToken = (token: string): boolean => {
+  if (!token || !token.trim()) {
+    return false;
+  }
+
+  // For Hanzii API tokens (simple alphanumeric strings)
+  // Just check if it's a non-empty string with reasonable length
+  const trimmedToken = token.trim();
+
+  // Check if token has reasonable length (at least 10 characters)
+  if (trimmedToken.length < 10) {
+    return false;
+  }
+
+  // Check if token contains only alphanumeric characters
+  const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+  return alphanumericRegex.test(trimmedToken);
+};
+
+// Enhanced authentication check with token validation
+export const isAuthenticatedWithValidation = (): boolean => {
+  const token = getAuthToken();
+  const user = getStoredUser();
+
+  if (!token || !user) {
+    return false;
+  }
+
+  // Validate token format and expiration
+  if (!isValidToken(token)) {
+    console.warn('Invalid or expired token found, clearing auth');
+    logout();
+    return false;
+  }
+
+  return true;
 };
 
 // Logout utility
