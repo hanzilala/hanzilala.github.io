@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import HanziWriter from 'hanzi-writer';
+import React from 'react';
 import { HanziiWordDetails, Language } from '../../api/hanzii';
 import { useTheme, useLanguage } from '../../components/ThemeProvider';
 import { getPartOfSpeechLabel } from '../../config/partOfSpeechMapping';
 import { WordImage } from '../../components/WordImage';
 import { hanziService } from '../../services/hanziService';
 import { CollapsibleSection } from '../../components/CollapsibleSection';
+import { Kanji } from './Kanji';
 
 export interface FullScreenLayoutProps {
   wordDefinition: HanziiWordDetails | null;
@@ -22,8 +22,6 @@ export const FullScreenLayout: React.FC<FullScreenLayoutProps> = ({
   currentWord,
   onNextWord
 }) => {
-  const writersRef = useRef<any[]>([]);
-  const elementsRef = useRef<(HTMLDivElement | null)[]>([]);
   const { theme } = useTheme();
   const { language } = useLanguage();
   const wordAvailable = wordDefinition && !isLoading && !error;
@@ -48,187 +46,18 @@ export const FullScreenLayout: React.FC<FullScreenLayoutProps> = ({
     });
   };
 
-  // Extract kanji characters from the word
-  const kanjiChars = currentWord.word.split('').filter(char =>
-    /[\u4e00-\u9faf]/.test(char) // Japanese kanji range
-  );
-
-  // Reset animation state when word changes
-  React.useEffect(() => {
-    // Reset refs arrays
-    writersRef.current = [];
-    elementsRef.current = new Array(kanjiChars.length).fill(null);
-  }, [currentWord.word, kanjiChars.length]);
-
-  // Use theme-appropriate colors based on current theme (Catppuccin)
-  const getThemeColors = () => {
-    const colorPalettes = {
-      latte: {
-        strokeColor: '#4c4f69', // ctp-text
-        outlineColor: '#9ca0b0', // ctp-surface2
-        highlightColor: '#d20f39', // ctp-red
-        drawingColor: '#1e66f5', // ctp-blue
-      },
-      mocha: {
-        strokeColor: '#cdd6f4', // ctp-text
-        outlineColor: '#585b70', // ctp-surface2
-        highlightColor: '#f38ba8', // ctp-red
-        drawingColor: '#89b4fa', // ctp-blue
-      },
-    };
-
-    return colorPalettes[theme] || colorPalettes.latte;
-  };
-
-  // Initialize all hanzi writers
-  useEffect(() => {
-    // Clean up existing writers
-    writersRef.current.forEach(writer => {
-      writer?.destroy?.();
-    });
-    writersRef.current = [];
-
-    function animateSequently(len: number, remain: number) {
-      console.log('animateSequently======', kanjiChars, len, remain);
-      if (remain === 0) {
-        // setTimeout(() => onNextWord(), 1000);
-        return;
-      }
-
-      writersRef.current[len - remain]?.animateCharacter({
-        onComplete: () => {
-          console.log('onComplete======', len, remain);
-          setTimeout(() => animateSequently(len, remain - 1), 150);
-        }
-      });
-    }
-
-    // Wait for DOM elements to be ready
-    const timer = setTimeout(() => {
-      // Create writers for all characters
-      kanjiChars.forEach((char, index) => {
-        const element = elementsRef.current[index];
-        if (element) {
-          element.innerHTML = '';
-          try {
-            const colors = getThemeColors();
-            const writer = HanziWriter.create(element, char, {
-              width: 150,
-              height: 150,
-              padding: 10,
-              strokeAnimationSpeed: 1,
-              delayBetweenStrokes: 150,
-              strokeColor: colors.strokeColor,
-              outlineColor: colors.outlineColor,
-              highlightColor: colors.highlightColor,
-              drawingColor: colors.drawingColor,
-              showCharacter: true,
-              showOutline: true,
-            });
-            writersRef.current[index] = writer;
-            writersRef.current[index].hideCharacter();
-          } catch (err) {
-            console.warn(`Failed to create writer for character: ${char}`, err);
-          }
-        }
-      });
-      animateSequently(kanjiChars.length, kanjiChars.length);
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      writersRef.current.forEach(writer => {
-        writer?.destroy?.();
-      });
-      writersRef.current = [];
-    };
-  }, [JSON.stringify(kanjiChars), theme]);
-
-  // // Animate all characters sequentially with looping
-  // const animateAllCharacters = () => {
-  //   if (isAnimating || writersRef.current.length === 0) return;
-
-  //   console.log('Starting animation loop', loopCount + 1, 'of', MAX_LOOPS);
-  //   let currentIndex = 0;
-
-  //   const animateNext = () => {
-  //     if (currentIndex >= writersRef.current.length) {
-  //       // All characters are now looping, wait for the specified time then move to next word
-  //       console.log('All characters are now animating in loops');
-
-  //       // Let characters loop for a while then move to next word
-  //       setTimeout(() => {
-  //         console.log('Moving to next word after character loops');
-  //         onNextWord();
-  //       }, MAX_LOOPS * 3000); // 3 seconds per loop
-  //       return;
-  //     }
-
-  //     const writer = writersRef.current[currentIndex];
-  //     console.log(`Animating character ${currentIndex}:`, writer ? 'writer exists' : 'writer missing');
-
-  //     if (writer) {
-  //       // Start looping animation for this character
-  //       const startCharacterLoop = () => {
-  //         writer.animateCharacter({
-  //           onComplete: () => {
-  //             // Loop this character's animation
-  //             setTimeout(() => startCharacterLoop(), 1000);
-  //           }
-  //         });
-  //       };
-
-  //       startCharacterLoop();
-
-  //       // Move to next character after a delay
-  //       setTimeout(() => {
-  //         console.log(`Moving to next character after ${currentIndex}`);
-  //         currentIndex++;
-  //         animateNext();
-  //       }, 2000);
-  //     } else {
-  //       console.log(`Skipping character ${currentIndex} - no writer`);
-  //       currentIndex++;
-  //       animateNext();
-  //     }
-  //   };
-
-  //   animateNext();
-  // };
-
-  // Set ref for each element
-  const setElementRef = (index: number) => (el: HTMLDivElement | null) => {
-    elementsRef.current[index] = el;
-  };
-
   return (
-    <div className="w-full h-screen bg-mantle text-text overflow-auto">
+    <div className="w-full h-screen bg-base text-text overflow-auto">
       <div className="flex flex-col items-center px-6 py-8 pb-20 max-w-6xl mx-auto">
 
-        {/* All Hanzi Writers displayed horizontally */}
-        <div className="mb-8">
-          {kanjiChars.length > 0 ? (
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              {kanjiChars.map((char, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <div className="bg-base p-4 rounded-lg border border-surface2">
-                    <div
-                      ref={setElementRef(index)}
-                      className="mx-auto"
-                      style={{ width: '150px', height: '150px' }}
-                    ></div>
-                  </div>
-                  <div className="mt-2 text-sm text-subtext1">
-                    {index + 1}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="w-[150px] h-[150px] bg-base border border-surface2 rounded-lg flex items-center justify-center">
-              <span className="text-subtext1">No Kanji characters</span>
-            </div>
-          )}
+        {/* Kanji Characters Section */}
+        <div className="mb-8 w-full flex justify-center">
+          <Kanji 
+            wordDefinition={wordDefinition}
+            isLoading={isLoading}
+            error={error}
+            currentWord={currentWord}
+          />
         </div>
 
         {/* Loading/Error states */}

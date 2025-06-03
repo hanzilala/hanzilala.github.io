@@ -101,7 +101,7 @@ export const Usage: React.FC<UsageProps> = ({
     : '';
 
   return (
-    <div className="h-full flex flex-col p-6 overflow-auto">
+    <div className="flex flex-col p-6">
       {/* Word title with bookmark button */}
       <div className="flex items-center justify-center gap-3 mb-4">
         <h2 className="text-4xl font-bold text-pink text-center font-chinese">{currentWord.word}</h2>
@@ -135,7 +135,7 @@ export const Usage: React.FC<UsageProps> = ({
       )}
 
       {/* Content area */}
-      <div className="flex-1 flex flex-col justify-center">
+      <div className="flex flex-col">
         {isLoading && (
           <div className="text-center text-subtext1 text-lg">
             Loading definition...

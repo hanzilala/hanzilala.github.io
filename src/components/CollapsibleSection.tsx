@@ -14,15 +14,24 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
   className = ''
 }) => {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
-  const [height, setHeight] = useState<number | undefined>(defaultExpanded ? undefined : 0);
+  const [height, setHeight] = useState<string | number>(defaultExpanded ? 'auto' : 0);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (contentRef.current) {
       if (isExpanded) {
-        setHeight(contentRef.current.scrollHeight);
+        // Temporarily set to auto, then measure and set fixed height for animation
+        const scrollHeight = contentRef.current.scrollHeight;
+        setHeight(scrollHeight);
+        // After animation, set to auto for natural content flow
+        setTimeout(() => setHeight('auto'), 300);
       } else {
-        setHeight(0);
+        // First set current height for smooth animation
+        if (height === 'auto') {
+          setHeight(contentRef.current.scrollHeight);
+        }
+        // Then animate to 0
+        setTimeout(() => setHeight(0), 10);
       }
     }
   }, [isExpanded, children]);
@@ -54,7 +63,7 @@ export const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
         className="transition-all duration-300 ease-out overflow-hidden"
         style={{ height: height }}
       >
-        <div className={`px-4 pb-4 transition-opacity duration-300 ${
+        <div className={`px-4 pb-3 transition-opacity duration-300 ${
           isExpanded ? 'opacity-100' : 'opacity-0'
         }`}>
           {children}

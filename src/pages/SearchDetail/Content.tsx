@@ -50,7 +50,7 @@ export const Content: React.FC<ContentProps> = ({ currentSlide, wordItems, onNex
   // Handle empty state
   if (wordItems.length === 0) {
     return (
-      <div className="w-full h-screen bg-mantle text-text flex flex-col items-center justify-center px-6">
+      <div className="w-full h-screen bg-base text-text flex flex-col items-center justify-center px-6">
         <h2 className="text-2xl font-bold mb-4">No Words Found</h2>
         <p className="text-center text-subtext0">
           No words from today were found in storage.

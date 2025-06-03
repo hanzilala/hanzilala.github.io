@@ -214,9 +214,9 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           <button
             type="button"
             onClick={() => setShowDropdown(!showDropdown)}
-            className="flex items-center justify-between w-24 sm:w-32 px-2 sm:px-4 py-3 sm:py-4 h-12 sm:h-[4rem] text-sm sm:text-lg border-2 border-surface1 border-r-0 
-                     rounded-l-full bg-surface0 text-text hover:bg-surface1 
-                     focus:outline-none focus:border-blue transition-all duration-200"
+            className="flex items-center justify-between w-24 sm:w-32 px-2 sm:px-4 py-3 sm:py-4 h-12 sm:h-[4rem] text-sm sm:text-lg border-2 border-overlay0 border-r-0 
+                     rounded-l-full bg-mantle text-text hover:bg-surface0 
+                     focus:outline-none focus:border-lavender/60 focus:ring-2 focus:ring-lavender/10 transition-all duration-200"
           >
             <span className="text-xs sm:text-sm font-medium truncate">
               {searchMode === 'default' ? 'Default' : 'Pinyin'}
@@ -277,16 +277,16 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           onKeyPress={handleKeyPress}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
           placeholder={placeholder}
-          className="flex-1 px-4 sm:px-6 py-3 sm:py-4 h-12 sm:h-[4rem] text-base sm:text-lg border-2 border-surface1 rounded-r-full 
-                   bg-surface0 text-text placeholder-subtext0
-                   focus:outline-none focus:border-blue focus:ring-2 focus:ring-blue/20
-                   hover:border-surface2 transition-all duration-200"
+          className="flex-1 px-4 sm:px-6 py-3 sm:py-4 h-12 sm:h-[4rem] text-base sm:text-lg border-2 border-overlay0 rounded-r-full 
+                   bg-mantle text-text placeholder-subtext1
+                   focus:outline-none focus:border-lavender/60 focus:ring-2 focus:ring-lavender/10
+                   hover:border-overlay1 transition-all duration-200"
         />
 
         {/* Loading indicator */}
         {isLoading && (
           <div className="absolute right-6 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue border-t-transparent"></div>
+            <div className="animate-spin rounded-full h-5 w-5 border-2 border-lavender/60 border-t-transparent"></div>
           </div>
         )}
       </div>
@@ -297,8 +297,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           <button
             onClick={() => handleSearch()}
             disabled={!searchQuery.trim()}
-            className="px-6 sm:px-8 py-2.5 sm:py-3 bg-blue text-base rounded-lg
-                     hover:bg-sapphire focus:outline-none focus:ring-2 focus:ring-blue/20
+            className="px-6 sm:px-8 py-2.5 sm:py-3 bg-lavender/70 text-base rounded-lg
+                     hover:bg-lavender/80 focus:outline-none focus:ring-2 focus:ring-lavender/20
                      disabled:opacity-50 disabled:cursor-not-allowed
                      transition-all duration-200 font-semibold text-sm sm:text-base"
           >
@@ -311,7 +311,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       {showSuggestions && suggestions.length > 0 && (
         <div
           ref={suggestionsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-surface0 border border-surface1 
+          className="absolute top-full left-0 right-0 mt-2 bg-mantle border border-overlay0 
                    rounded-lg shadow-lg overflow-y-auto"
           style={{ 
             zIndex: suggestionsZIndex,
@@ -322,7 +322,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
             <div
               key={suggestion.id}
               onClick={() => handleSuggestionClick(suggestion.word)}
-              className="px-4 sm:px-6 py-2.5 sm:py-3 hover:bg-surface1 cursor-pointer border-b border-surface1 last:border-b-0
+              className="px-4 sm:px-6 py-2.5 sm:py-3 hover:bg-surface0 cursor-pointer border-b border-overlay0 last:border-b-0
                        transition-colors duration-150"
             >
               <span className="text-base sm:text-lg text-text">

@@ -20,10 +20,10 @@ export const Kanji: React.FC<KanjiProps> = ({
   );
 
   return (
-    <div className="h-full flex flex-col p-6 min-w-[400px] overflow-auto">
+    <div className="flex flex-col p-6 min-w-[400px]">
       {/* Loading/Error states */}
       {isLoading && (
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <div className="text-center text-subtext1 text-lg">
             Loading kanji details...
           </div>
@@ -31,7 +31,7 @@ export const Kanji: React.FC<KanjiProps> = ({
       )}
 
       {error && (
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <div className="text-center text-red text-lg">
             Failed to load kanji information
           </div>
@@ -40,7 +40,7 @@ export const Kanji: React.FC<KanjiProps> = ({
 
       {/* Main content */}
       {!isLoading && !error && (
-        <div className="flex-1 space-y-6 overflow-y-auto">
+        <div className="space-y-6">
           {/* Interactive Kanji Writers */}
           {kanjiChars.length > 0 && (
             <div className="py-4 rounded-lg">
