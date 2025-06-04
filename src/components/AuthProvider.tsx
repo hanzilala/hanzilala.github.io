@@ -78,7 +78,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Login function
   const login = (userData: User) => {
-    console.log('userData=====', userData);
     if (userData.token && isValidToken(userData.token)) {
       setUser(userData);
       setStoredUser(userData);
