@@ -203,3 +203,87 @@ export const getWordDetails = async (word: string, language: Language = 'vi'): P
     throw new Error('No word details found in API response');
   }
 }; 
+
+// ================================
+// NOTEBOOKS API
+// ================================
+
+export interface PersonalNotebook {
+  id: number;
+  name: string;
+  language: string;
+  created_at: number;
+  notebooks_count: number;
+  sync_time: number;
+  deleted: boolean;
+}
+
+export interface NotebooksApiResponse {
+  total: number;
+  result: PersonalNotebook[];
+}
+
+/**
+ * Create a custom error class for API errors
+ */
+export class HanziiApiError extends Error {
+  status?: number;
+
+  constructor(message: string, status?: number) {
+    super(message);
+    this.name = 'HanziiApiError';
+    this.status = status;
+  }
+}
+
+/**
+ * Fetch personal notebooks from the API
+ * @param page - Page number (default: 1)
+ * @param limit - Number of items per page (default: 100)
+ * @returns Promise with notebooks data or throws error
+ */
+export const fetchPersonalNotebooks = async (
+  page: number = 1,
+  limit: number = 100
+): Promise<PersonalNotebook[]> => {
+  const token = localStorage.getItem('hanzii-auth-token');
+
+  if (!token) {
+    throw new HanziiApiError('No authentication token found');
+  }
+
+  try {
+    const response = await fetch(`${HANZII_API_BASE}/category?page=${page}&limit=${limit}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new HanziiApiError('Authentication expired. Please login again.', 401);
+      } else {
+        throw new HanziiApiError(`Failed to fetch notebooks (${response.status})`, response.status);
+      }
+    }
+
+    const result: NotebooksApiResponse = await response.json();
+    console.log('API Response:', result); // Debug log
+
+    if (result.total !== undefined && Array.isArray(result.result)) {
+      return result.result;
+    } else {
+      throw new HanziiApiError('Invalid response format from API');
+    }
+  } catch (error) {
+    if (error instanceof HanziiApiError) {
+      throw error;
+    }
+
+    console.error('Error fetching personal notebooks:', error);
+    throw new HanziiApiError('Network error. Please try again.');
+  }
+}; 

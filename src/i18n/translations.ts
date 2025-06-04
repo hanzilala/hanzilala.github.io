@@ -1,6 +1,9 @@
 export type Language = 'vi' | 'en';
 
 export interface Translations {
+  common: {
+    words: string;
+  };
   navigation: {
     home: string;
     notebooks: string;
@@ -33,6 +36,9 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   vi: {
+    common: {
+      words: 'từ',
+    },
     navigation: {
       home: 'Trang chủ',
       notebooks: 'Sổ tay',
@@ -63,6 +69,9 @@ export const translations: Record<Language, Translations> = {
     },
   },
   en: {
+    common: {
+      words: 'words',
+    },
     navigation: {
       home: 'Home',
       notebooks: 'Notebooks',
