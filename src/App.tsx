@@ -7,6 +7,7 @@ import { Header } from './components/Header';
 import { Home } from './pages/Home';
 import { SearchDetail } from './pages/SearchDetail';
 import { Notebooks } from './pages/Notebooks';
+import { NotebookDetail } from './pages/NotebookDetail';
 import { hanziService } from './services/hanziService';
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
             <main className="flex-1 pt-12">
               <Route path="/" component={Home} />
               <Route path="/notebooks" component={Notebooks} />
+              <Route path="/notebooks/:id" component={NotebookDetail} />
               <Route path="/search/:wordItem" component={SearchDetail} />
             </main>
           </div>

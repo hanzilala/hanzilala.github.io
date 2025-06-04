@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { useAuth } from '../../components/AuthProvider';
 import { AuthButton } from '../../components/AuthButton';
 import { useLanguage } from '../../components/ThemeProvider';
@@ -10,6 +11,7 @@ export const PersonalNotebooks: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const { language } = useLanguage();
   const { t } = useTranslation(language);
+  const [, setLocation] = useLocation();
   
   const [personalNotebooks, setPersonalNotebooks] = useState<PersonalNotebook[]>([]);
   const [isLoadingNotebooks, setIsLoadingNotebooks] = useState(false);
@@ -53,7 +55,8 @@ export const PersonalNotebooks: React.FC = () => {
   // Handle notebook click
   const handlePersonalNotebookClick = (notebook: NotebookItemData) => {
     console.log('Personal notebook clicked:', notebook);
-    // TODO: Navigate to notebook detail page
+    // Navigate to personal notebook detail page with "your-" prefix
+    setLocation(`/notebooks/your-${notebook.id}`);
   };
 
   // Convert PersonalNotebook to NotebookItemData
