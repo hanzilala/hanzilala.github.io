@@ -19,3 +19,7 @@ dist/
 .vscode/*
 !.vscode/extensions.json
 .idea
+.cursor/
+
+# Environment variables
+.env

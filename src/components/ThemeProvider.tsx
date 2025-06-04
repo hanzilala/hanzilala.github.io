@@ -124,7 +124,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   return (
     <AppContext.Provider value={{ theme, setTheme, language, setLanguage, wordItems, refreshWordItems, layout, setLayout }}>
-      <div className={`${theme} min-h-screen bg-ctp-base text-ctp-text`}>
+      <div className={`${theme} min-h-screen bg-base text-text`}>
         {children}
       </div>
     </AppContext.Provider>

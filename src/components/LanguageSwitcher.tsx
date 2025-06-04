@@ -23,18 +23,18 @@ const LanguageSwitcher: React.FC = () => {
     <button
       onClick={toggleLanguage}
       className={`
-        flex items-center justify-center gap-2 px-3 py-2 rounded-full 
-        bg-ctp-surface0 hover:bg-ctp-surface1 
+        flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-full 
+        bg-surface0 hover:bg-surface1 
         transition-all duration-300 ease-in-out
         transform hover:scale-105 active:scale-95
-        shadow-lg hover:shadow-xl
-        border-2 border-transparent hover:border-ctp-blue/20
-        min-w-[70px]
+        shadow-md hover:shadow-lg
+        border border-transparent hover:border-blue/20
+        min-w-[60px]
       `}
       title={config.label}
     >
-      <span className="text-lg">{config.flag}</span>
-      <span className="text-sm font-semibold text-ctp-text">{config.name}</span>
+      <span className="text-sm">{config.flag}</span>
+      <span className="text-xs font-semibold text-text">{config.name}</span>
     </button>
   );
 };

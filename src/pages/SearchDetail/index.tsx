@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'wouter';
 import { Content } from './Content';
 import { ControlView } from './ControlView';
 import LayoutSwitcher from '../../components/LayoutSwitcher';
+import { SearchInput } from '../../components/SearchInput';
 import { useWordItems, useLayout } from '../../components/ThemeProvider';
 
 export interface SearchDetailProps {
@@ -53,14 +54,28 @@ export const SearchDetail: React.FC<SearchDetailProps> = () => {
   };
 
   return (
-    <div className="relative w-full h-screen bg-base overflow-hidden">
-      {/* Switchers positioned at bottom-left corner */}
-      <div className="absolute bottom-4 left-4 z-60 flex gap-3">
+    <div className="relative w-full min-h-screen bg-base overflow-auto pt-16">
+      {/* Search input - fixed position to always stay visible */}
+      <div className="fixed top-20 sm:top-24 left-1/2 transform -translate-x-1/2 z-[90] w-full max-w-xs sm:max-w-md px-3 sm:px-4">
+        <SearchInput
+          onSearch={handleSearch}
+          placeholder="Search for Chinese characters, pinyin, or meanings..."
+          showButton={false}
+          autoFocus={false}
+          className="w-full"
+          initialValue={searchedWord?.word || ''}
+          suggestionsZIndex={99999}
+          maxSuggestionsHeight="16rem"
+        />
+      </div>
+
+      {/* Layout Switcher below search */}
+      <div className="fixed top-40 sm:top-44 left-1/2 transform -translate-x-1/2 z-[80]">
         <LayoutSwitcher />
       </div>
       
       {/* ControlView component positioned absolutely at bottom center */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-60">
+      <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 z-60">
         <ControlView 
           currentSlide={currentSlide} 
           onPrev={handlePrev} 
@@ -73,12 +88,14 @@ export const SearchDetail: React.FC<SearchDetailProps> = () => {
         />
       </div>
       
-      {/* Content component taking full screen */}
-      <Content 
-        currentSlide={currentSlide} 
-        wordItems={searchedWord ? [searchedWord] : []}
-        onNextWord={handleNext}
-      />
+      {/* Content component with top padding to avoid being covered by search */}
+      <div className="pt-40 sm:pt-48">
+        <Content 
+          currentSlide={currentSlide} 
+          wordItems={searchedWord ? [searchedWord] : []}
+          onNextWord={handleNext}
+        />
+      </div>
     </div>
   );
 };

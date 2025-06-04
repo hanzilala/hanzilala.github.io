@@ -17,11 +17,11 @@ export const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   currentWord
 }) => {
   return (
-    <div className="w-full h-screen bg-mantle text-text pt-12 pb-16">
-      {/* Horizontal layout: Usage (40%) | Kanji (60%, min 400px) */}
-      <div className="h-full flex">
-        {/* Usage section - 40% width */}
-        <div className="w-2/5 border-r border-surface1">
+    <div className="w-full min-h-screen bg-base text-text pt-12 pb-16">
+      {/* Horizontal layout: Usage section flexible | Kanji section fixed width */}
+      <div className="flex">
+        {/* Usage section - flexible width */}
+        <div className="flex-1 border-r border-surface1">
           <Usage 
             wordDefinition={wordDefinition}
             isLoading={isLoading}
@@ -30,12 +30,12 @@ export const DefaultLayout: React.FC<DefaultLayoutProps> = ({
           />
         </div>
 
-        {/* Kanji section - 60% width with minimum 400px */}
-        <div className="flex-1 min-w-[400px]">
+        {/* Kanji section - fixed width optimized for Kanji component */}
+        <div className="w-[480px] min-w-[480px]">
           <Kanji 
             wordDefinition={wordDefinition}
-            isLoading={isLoading}
-            error={error}
+            isLoading={false}
+            error={null}
             currentWord={currentWord}
           />
         </div>

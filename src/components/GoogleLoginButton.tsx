@@ -99,7 +99,6 @@ export const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       
       // Call our API with the Google token
       const authResponse = await loginWithGoogle(response.credential);
-      console.log('authResponse======', authResponse);
       if (authResponse?.status === 200 && authResponse?.result) {
         // Login successful
         login(authResponse.result);

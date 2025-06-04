@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { isValidPinyin, getPinyinWithTones, PINYIN_COMBINATIONS } from '../utils/pinyin-dictionaries';
 
-interface SearchSuggestion {
-  id: string;
-  word: string;
-  displayText: string;
-}
+// Search mode options
+type SearchMode = 'default' | 'pinyin';
 
 interface SearchInputProps {
   onSearch: (word: string) => void;
@@ -13,6 +11,14 @@ interface SearchInputProps {
   showButton?: boolean;
   autoFocus?: boolean;
   initialValue?: string;
+  suggestionsZIndex?: number;
+  maxSuggestionsHeight?: string;
+}
+
+interface SearchSuggestion {
+  id: string;
+  word: string;
+  displayText: string;
 }
 
 // Debounce function instead of throttle
@@ -35,14 +41,19 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   className = "",
   showButton = true,
   autoFocus = false,
-  initialValue = ""
+  initialValue = "",
+  suggestionsZIndex = 100,
+  maxSuggestionsHeight = "20rem"
 }) => {
   const [searchQuery, setSearchQuery] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchMode, setSearchMode] = useState<SearchMode>('default');
+  const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Focus input on mount if autoFocus is true
   useEffect(() => {
@@ -51,7 +62,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     }
   }, [autoFocus]);
 
-  // Handle click outside to close suggestions
+  // Handle click outside to close suggestions and dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -60,6 +71,13 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         !inputRef.current?.contains(event.target as Node)
       ) {
         setShowSuggestions(false);
+      }
+      
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
       }
     };
 
@@ -190,7 +208,67 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   return (
     <div className={`relative ${className}`}>
       {/* Search Input */}
-      <div className="relative">
+      <div className="relative flex">
+        {/* Dropdown Button */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="flex items-center justify-between w-24 sm:w-32 px-2 sm:px-4 py-3 sm:py-4 h-12 sm:h-[4rem] text-sm sm:text-lg border-2 border-overlay0 border-r-0 
+                     rounded-l-full bg-mantle text-text hover:bg-surface0 
+                     focus:outline-none focus:border-lavender/60 focus:ring-2 focus:ring-lavender/10 transition-all duration-200"
+          >
+            <span className="text-xs sm:text-sm font-medium truncate">
+              {searchMode === 'default' ? 'Default' : 'Pinyin'}
+            </span>
+            <svg 
+              className={`ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 ${
+                showDropdown ? 'rotate-180' : ''
+              }`}
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          {/* Dropdown Menu */}
+          <div className={`absolute top-full left-0 mt-1 w-24 sm:w-32 bg-surface0 border border-surface1 
+                       rounded-lg shadow-lg transition-all duration-300 ease-out origin-top z-50 ${
+            showDropdown 
+              ? 'opacity-100 scale-y-100 translate-y-0' 
+              : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'
+          }`}>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchMode('default');
+                setShowDropdown(false);
+              }}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm hover:bg-surface1 
+                       transition-colors duration-150 first:rounded-t-lg ${
+                searchMode === 'default' ? 'bg-surface1 font-medium' : ''
+              }`}
+            >
+              Default
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchMode('pinyin');
+                setShowDropdown(false);
+              }}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm hover:bg-surface1 
+                       transition-colors duration-150 last:rounded-b-lg ${
+                searchMode === 'pinyin' ? 'bg-surface1 font-medium' : ''
+              }`}
+            >
+              Pinyin
+            </button>
+          </div>
+        </div>
+
         <input
           ref={inputRef}
           type="text"
@@ -199,30 +277,30 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           onKeyPress={handleKeyPress}
           onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
           placeholder={placeholder}
-          className="w-full px-6 py-4 text-lg border-2 border-surface1 rounded-full 
-                   bg-surface0 text-text placeholder-subtext0
-                   focus:outline-none focus:border-blue focus:ring-2 focus:ring-blue/20
-                   hover:border-surface2 transition-all duration-200"
+          className="flex-1 px-4 sm:px-6 py-3 sm:py-4 h-12 sm:h-[4rem] text-base sm:text-lg border-2 border-overlay0 rounded-r-full 
+                   bg-mantle text-text placeholder-subtext1
+                   focus:outline-none focus:border-lavender/60 focus:ring-2 focus:ring-lavender/10
+                   hover:border-overlay1 transition-all duration-200"
         />
 
         {/* Loading indicator */}
         {isLoading && (
           <div className="absolute right-6 top-1/2 transform -translate-y-1/2">
-            <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue border-t-transparent"></div>
+            <div className="animate-spin rounded-full h-5 w-5 border-2 border-lavender/60 border-t-transparent"></div>
           </div>
         )}
       </div>
 
       {/* Search Button */}
       {showButton && (
-        <div className="flex justify-center mt-6 space-x-4">
+        <div className="flex justify-center mt-4 sm:mt-6 space-x-4">
           <button
             onClick={() => handleSearch()}
             disabled={!searchQuery.trim()}
-            className="px-8 py-3 bg-surface1 text-text rounded-lg
-                     hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-blue/20
+            className="px-6 sm:px-8 py-2.5 sm:py-3 bg-lavender/70 text-base rounded-lg
+                     hover:bg-lavender/80 focus:outline-none focus:ring-2 focus:ring-lavender/20
                      disabled:opacity-50 disabled:cursor-not-allowed
-                     transition-all duration-200"
+                     transition-all duration-200 font-semibold text-sm sm:text-base"
           >
             Search
           </button>
@@ -233,17 +311,21 @@ export const SearchInput: React.FC<SearchInputProps> = ({
       {showSuggestions && suggestions.length > 0 && (
         <div
           ref={suggestionsRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-surface0 border border-surface1 
-                   rounded-lg shadow-lg max-h-80 overflow-y-auto z-50"
+          className="absolute top-full left-0 right-0 mt-2 bg-mantle border border-overlay0 
+                   rounded-lg shadow-lg overflow-y-auto"
+          style={{ 
+            zIndex: suggestionsZIndex,
+            maxHeight: maxSuggestionsHeight 
+          }}
         >
           {suggestions.map((suggestion) => (
             <div
               key={suggestion.id}
               onClick={() => handleSuggestionClick(suggestion.word)}
-              className="px-6 py-3 hover:bg-surface1 cursor-pointer border-b border-surface1 last:border-b-0
+              className="px-4 sm:px-6 py-2.5 sm:py-3 hover:bg-surface0 cursor-pointer border-b border-overlay0 last:border-b-0
                        transition-colors duration-150"
             >
-              <span className="text-lg text-text">
+              <span className="text-base sm:text-lg text-text">
                 {highlightSearchTerm(suggestion.displayText, searchQuery)}
               </span>
             </div>
